@@ -1,12 +1,18 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
     const navLinks = <>
-        <li><a>Item 1</a></li>
-        <li><a>Item 3</a></li>
+        <li className='mx-3 text-yellow-600 font-bold'><NavLink to="/">Home</NavLink></li>
+        <li className='mx-3 text-yellow-600 font-bold'><NavLink to="/Contact">Contact</NavLink></li>
+        <li className='mx-3 text-yellow-600 font-bold'><NavLink to="/Dashboard">Dashboard</NavLink></li>
+        <li className='mx-3 text-yellow-600 font-bold'><NavLink to="/menu">Our Menu</NavLink></li>
+        <li className='mx-3 text-yellow-600 font-bold'><NavLink to="/OurShop">Our Shop</NavLink></li>
+        
+        
     </>
     return (
-        <div className="navbar fixed z-50  backdrop-blur-sm text-white">
+        <div className="navbar fixed z-50 bg-black bg-blend-overlay opacity-70  backdrop-blur-sm text-white">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -29,7 +35,11 @@ const Navbar = () => {
                         {navLinks}
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl">daisyUI</a>
+                <div>
+                    <h1 className=" text-2xl font-extrabold text-white uppercase mx-5 ">Bistro Boss <br />
+                        <span className='uppercase text-sm'>reasturant</span>
+                    </h1>
+                </div>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
