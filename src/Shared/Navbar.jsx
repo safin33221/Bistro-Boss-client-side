@@ -7,7 +7,7 @@ const Navbar = () => {
         <li className='mx-3 text-yellow-600 font-bold'><NavLink to="/Contact">Contact</NavLink></li>
         <li className='mx-3 text-yellow-600 font-bold'><NavLink to="/Dashboard">Dashboard</NavLink></li>
         <li className='mx-3 text-yellow-600 font-bold'><NavLink to="/menu">Our Menu</NavLink></li>
-        <li className='mx-3 text-yellow-600 font-bold'><NavLink to="/OurShop">Our Shop</NavLink></li>
+        <li className='mx-3 text-yellow-600 font-bold'><NavLink to="/shop">Our Shop</NavLink></li>
         
         
     </>
