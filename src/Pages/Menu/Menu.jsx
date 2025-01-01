@@ -23,19 +23,14 @@ const Menu = () => {
         <div>
             <Cover img={menuImg} title="Our Menu" subTitle="Would you like to try a dish?" />
 
-            <section>
-                <SectionTitle heading="Today's offers" subheading="Don't miss" />
-                <div className=''>
-                    <MenuCategory items={offered} />
-                </div>
-            </section>
 
-
-            <MenuCategory items={desserts} title="Desserts" coverImg={dessertImg} />
+            <SectionTitle heading="Today's offers" subheading="Don't miss" />
+            <MenuCategory items={offered} />
             <MenuCategory items={salad} title="salad" coverImg={saladtImg} />
             <MenuCategory items={pizza} title="pizza" coverImg={pizzaImg} />
-        
             <MenuCategory items={soup} title="soup" coverImg={soupImg} />
+            <MenuCategory items={desserts} title="desserts" coverImg={dessertImg} />
+            <MenuCategory items={drinks} title="drinks" coverImg={dessertImg} />
 
         </div>
     );

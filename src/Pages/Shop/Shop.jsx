@@ -5,10 +5,15 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import useMenu from "../../Hooks/useMenu";
 import FoodCard from "../../Components/FoodCard";
+import { useParams } from "react-router-dom";
 
 
 const Shop = () => {
-    const [tabIndex, setTabIndex] = useState(0);
+    const categorys = ['salad','pizza','soup','desserts','drinks']
+    const { category } = useParams()
+    const initTab = categorys.indexOf(category)
+    console.log(category);
+    const [tabIndex, setTabIndex] = useState(initTab);
     const [menu] = useMenu()
     const desserts = menu.filter(item => item.category === "dessert")
     const salad = menu.filter(item => item.category === "salad")
@@ -16,8 +21,9 @@ const Shop = () => {
     const drinks = menu.filter(item => item.category === "drinks")
     const soup = menu.filter(item => item.category === "soup")
     const offered = menu.filter(item => item.category === "offered")
+
     return (
-        <div className="py-10">
+        <div className="pb-10">
             <Cover img={shopImg} title="our shop" subTitle='Would you like to try a dish?' />
             <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
                 <TabList>
@@ -30,42 +36,42 @@ const Shop = () => {
                 <TabPanel>
                     <div className="grid md:grid-cols-3 gap-10 w-10/12 mx-auto">
                         {
-                            salad.map(item => <FoodCard item={item} />)
+                            salad.map(item => <FoodCard key={item._id} item={item} />)
                         }
                     </div>
                 </TabPanel>
                 <TabPanel>
                     <div className="grid md:grid-cols-3 gap-10 w-10/12 mx-auto">
                         {
-                            pizza.map(item => <FoodCard item={item} />)
+                            pizza.map(item => <FoodCard key={item._id} item={item} />)
                         }
                     </div>
                 </TabPanel>
                 <TabPanel>
                     <div className="grid md:grid-cols-3 gap-10 w-10/12 mx-auto">
                         {
-                            soup.map(item => <FoodCard item={item} />)
+                            soup.map(item => <FoodCard key={item._id} item={item} />)
                         }
                     </div>
                 </TabPanel>
                 <TabPanel>
                     <div className="grid md:grid-cols-3 gap-10 w-10/12 mx-auto">
                         {
-                            desserts.map(item => <FoodCard item={item} />)
+                            desserts.map(item => <FoodCard key={item._id} item={item} />)
                         }
                     </div>
                 </TabPanel>
                 <TabPanel>
                     <div className="grid md:grid-cols-3 gap-10 w-10/12 mx-auto">
                         {
-                            drinks.map(item => <FoodCard item={item} />)
+                            drinks.map(item => <FoodCard key={item._id} item={item} />)
                         }
                     </div>
                 </TabPanel>
                 <TabPanel>
                     <div className="grid md:grid-cols-3 gap-10 w-10/12 mx-auto">
                         {
-                            salad.map(item => <FoodCard item={item} />)
+                            salad.map(item => <FoodCard key={item._id} item={item} />)
                         }
                     </div>
                 </TabPanel>
