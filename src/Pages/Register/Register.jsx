@@ -6,7 +6,7 @@ import { authContex } from '../../Provider/AuthProvider';
 
 const Register = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
-    const { createUserWithEamil } = useContext(authContex)
+    const { createUserWithEamil,updateUserProfile } = useContext(authContex)
     const navigate = useNavigate()
     const onSubmit = data => {
         console.log(data);
@@ -14,6 +14,7 @@ const Register = () => {
             .then((result) => {
                 const loggedUser = result.user 
                 console.log(loggedUser); 
+                updateUserProfile(data.name,data.photo)
                 navigate('/')
 
             })
@@ -43,7 +44,8 @@ const Register = () => {
                             <label className="label">
                                 <span className="label-text">Photo</span>
                             </label>
-                            <input name="photo" {...register("photo")} type="photo" placeholder="Photo" className="input input-bordered" required />
+                            <input name="photo" {...register("photo")} type="photo" placeholder="Photo" className="input input-bordered"  />
+                            {errors.photo && <p className='text-red-600'>photo fild is required</p>}
                         </div>
                         <div className="form-control">
                             <label className="label">

@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { authContex } from '../Provider/AuthProvider';
 
 const Navbar = () => {
-    const { user,singoutUser } = useContext(authContex)
+    const { user, singoutUser } = useContext(authContex)
     const navigate = useNavigate()
     const navLinks = <>
         <li className='mx-3 text-yellow-600 font-bold'><NavLink to="/">Home</NavLink></li>
@@ -17,9 +17,9 @@ const Navbar = () => {
     </>
     const signOut = () => {
         singoutUser()
-        .then(()=>{
-            navigate('/login')
-        })
+            .then(() => {
+                navigate('/login')
+            })
     }
 
     return (
@@ -59,7 +59,9 @@ const Navbar = () => {
             </div>
             <div className="navbar-end">
                 {
-                    user ? <button onClick={signOut} className="btn">Log Out</button>
+                    user ? <div><button onClick={signOut} className="btn">Log Out</button>
+                        <p>{user?.displayName}</p>
+                    </div>
                         :
                         <button className="btn">Login</button>
                 }
