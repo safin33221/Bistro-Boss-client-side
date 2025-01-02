@@ -44,6 +44,7 @@ const AuthProvider = ({ children }) => {
         user,
         loading,
         createUserWithEamil,
+        signUpUser,
         singoutUser
     }
 

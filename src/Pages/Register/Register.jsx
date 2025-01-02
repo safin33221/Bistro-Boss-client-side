@@ -1,18 +1,21 @@
 import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { authContex } from '../../Provider/AuthProvider';
 
 const Register = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
     const { createUserWithEamil } = useContext(authContex)
+    const navigate = useNavigate()
     const onSubmit = data => {
         console.log(data);
         createUserWithEamil(data.email, data.password)
             .then((result) => {
                 const loggedUser = result.user 
                 console.log(loggedUser); 
+                navigate('/')
+
             })
 
     }
@@ -58,7 +61,7 @@ const Register = () => {
                                     minLength: 6,
                                     maxLength: 12,
                                     pattern: /(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])/
-                                })} type="password" placeholder="password" className="input input-bordered" />
+                                })} type="text" placeholder="password" className="input input-bordered" />
                             {errors?.password?.type && <p className='text-red-600'>Password is required</p>}
                             {errors?.password?.type === 'minLength' && <p className='text-red-600'>Password has must 6 char </p>}
                             {errors?.password?.type === 'minLength' && <p className='text-red-600'>Password has must 12 char </p>}

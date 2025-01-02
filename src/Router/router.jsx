@@ -5,32 +5,33 @@ import Menu from "../Pages/Menu/Menu";
 import Shop from "../Pages/Shop/Shop";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
+import PrivetRoute from "../Privet/PrivetRoute";
 
 
 const router = createBrowserRouter([
     {
-        path:'/',
-        element:<MainLayout/>,
-        children:[
+        path: '/',
+        element: <MainLayout />,
+        children: [
             {
-                path:'/',
-                element:<Home/>
+                path: '/',
+                element: <Home />
             },
             {
-                path:'/menu',
-                element:<Menu/>
+                path: '/menu',
+                element: <PrivetRoute><Menu /></PrivetRoute>
             },
             {
-                path:'/shop/:category',
-                element:<Shop/>
+                path: '/shop/:category',
+                element: <PrivetRoute><Shop /></PrivetRoute>
             },
             {
-                path:'/login',
-                element:<Login/>
+                path: '/login',
+                element: <Login />
             },
             {
-                path:'/register',
-                element:<Register/>
+                path: '/register',
+                element: <Register />
             },
         ]
     }
