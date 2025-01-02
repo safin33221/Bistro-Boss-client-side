@@ -6,7 +6,7 @@ import Footer from '../Shared/Footer';
 const MainLayout = () => {
     const location = useLocation()
     console.log(location.pathname);
-    const noNandF = location.pathname.includes('login')
+    const noNandF = location.pathname.includes('login') || location.pathname.includes('register')
     return (
         <div>
             {

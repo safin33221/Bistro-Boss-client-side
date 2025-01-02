@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 
 const Login = () => {
@@ -64,6 +65,7 @@ const Login = () => {
                             <button disabled={disabled} className="btn btn-primary">Login</button>
                         </div>
                     </form>
+                    <p><Link to='/register'>Register Now</Link></p>
                 </div>
             </div>
         </div>
