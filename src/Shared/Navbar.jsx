@@ -8,7 +8,7 @@ const Navbar = () => {
     const { user, singoutUser } = useContext(authContex)
     const navigate = useNavigate()
     const [cart] = useCart()
-    console.log(cart);
+   
     const navLinks = <>
         <li className='mx-3 text-yellow-600 font-bold'><NavLink to="/">Home</NavLink></li>
         <li className='mx-3 text-yellow-600 font-bold'><NavLink to="/Contact">Contact</NavLink></li>

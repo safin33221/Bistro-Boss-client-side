@@ -6,6 +6,7 @@ import { authContex } from '../../Provider/AuthProvider';
 import useAxiosOpen from '../../Hooks/useAxiosOpen';
 import Swal from 'sweetalert2';
 import axios, { Axios } from 'axios';
+import SocialLogin from '../../Shared/SocialLoing/SocialLogin';
 
 const Register = () => {
     const axiosOpen = useAxiosOpen()
@@ -13,7 +14,7 @@ const Register = () => {
     const { createUserWithEamil, updateUserProfile } = useContext(authContex)
     const navigate = useNavigate()
     const onSubmit = data => {
-        console.log(data);
+        
         createUserWithEamil(data.email, data.password)
             .then((result) => {
 
@@ -27,7 +28,7 @@ const Register = () => {
                         }
                         axios.post('http://localhost:5050/users', userInfo)
                             .then(res => {
-                                console.log(res.data);
+                               
 
 
                                 if (res.data.insertedId) {
@@ -106,6 +107,7 @@ const Register = () => {
                         </div>
                     </form>
                     <p><Link to='/login'>Register Now</Link></p>
+                    <SocialLogin/>
                 </div>
             </div>
         </div>

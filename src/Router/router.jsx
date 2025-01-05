@@ -8,6 +8,7 @@ import Register from "../Pages/Register/Register";
 import PrivetRoute from "../Privet/PrivetRoute";
 import DashBoard from "../Layout/DashBoard";
 import Cart from "../Pages/Dashboard/cart";
+import AllUser from "../Pages/Dashboard/AllUsers/AllUser";
 
 
 const router = createBrowserRouter([
@@ -45,6 +46,13 @@ const router = createBrowserRouter([
                 path:'cart',
                 element:<Cart/>
 
+            },
+
+
+            //admin routes
+            {
+                path:'all-users',
+                element:<AllUser/>
             }
         ]
     }
