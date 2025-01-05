@@ -3,19 +3,47 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { authContex } from '../../Provider/AuthProvider';
+import useAxiosOpen from '../../Hooks/useAxiosOpen';
+import Swal from 'sweetalert2';
+import axios, { Axios } from 'axios';
 
 const Register = () => {
+    const axiosOpen = useAxiosOpen()
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
-    const { createUserWithEamil,updateUserProfile } = useContext(authContex)
+    const { createUserWithEamil, updateUserProfile } = useContext(authContex)
     const navigate = useNavigate()
     const onSubmit = data => {
         console.log(data);
         createUserWithEamil(data.email, data.password)
             .then((result) => {
-                const loggedUser = result.user 
-                console.log(loggedUser); 
-                updateUserProfile(data.name,data.photo)
-                navigate('/')
+
+
+                updateUserProfile(data.name, data.photo)
+                    .then(() => {
+                        //create user entry in data base
+                        const userInfo = {
+                            name: data.name,
+                            email: data.email
+                        }
+                        axios.post('http://localhost:5050/users', userInfo)
+                            .then(res => {
+                                console.log(res.data);
+
+
+                                if (res.data.insertedId) {
+                                    Swal.fire({
+                                        position: "top-end",
+                                        icon: "success",
+                                        title: "Your work has been saved",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    navigate('/')
+                                }
+
+                            })
+                    })
+
 
             })
 
@@ -44,7 +72,7 @@ const Register = () => {
                             <label className="label">
                                 <span className="label-text">Photo</span>
                             </label>
-                            <input name="photo" {...register("photo")} type="photo" placeholder="Photo" className="input input-bordered"  />
+                            <input name="photo" {...register("photo")} type="photo" placeholder="Photo" className="input input-bordered" />
                             {errors.photo && <p className='text-red-600'>photo fild is required</p>}
                         </div>
                         <div className="form-control">

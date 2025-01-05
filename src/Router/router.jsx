@@ -6,6 +6,8 @@ import Shop from "../Pages/Shop/Shop";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import PrivetRoute from "../Privet/PrivetRoute";
+import DashBoard from "../Layout/DashBoard";
+import Cart from "../Pages/Dashboard/cart";
 
 
 const router = createBrowserRouter([
@@ -33,6 +35,17 @@ const router = createBrowserRouter([
                 path: '/register',
                 element: <Register />
             },
+        ]
+    },
+    {
+        path:'dashboard',
+        element:<DashBoard/>,
+        children:[
+            {
+                path:'cart',
+                element:<Cart/>
+
+            }
         ]
     }
 ])
