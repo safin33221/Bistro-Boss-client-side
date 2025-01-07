@@ -39,7 +39,7 @@ const DashBoard = () => {
 
     return (
         <div className='flex'>
-            <div className="w-64 min-h-screen bg-orange-400">
+            <div className="w-64 min-h-screen bg-orange-400 fixed top-0">
                 <ul className='menu p-3'>
                     {
                         isAdmin ?
@@ -92,7 +92,7 @@ const DashBoard = () => {
                     </li>
                 </ul>
             </div>
-            <div className='flex flex-1'>
+            <div className='flex flex-1 ml-64'>
                 <Outlet />
             </div>
         </div>

@@ -6,11 +6,13 @@ import Shop from "../Pages/Shop/Shop";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import PrivetRoute from "../Privet/PrivetRoute";
-import AdminRoute from "../Privet/AdminRoute";
+
 import DashBoard from "../Layout/DashBoard";
 import Cart from "../Pages/Dashboard/cart";
 import AllUser from "../Pages/Dashboard/AllUsers/AllUser";
 import AddItem from "../Pages/Dashboard/AddItem/AddItem";
+import AdminRoute from "../Privet/adminRoute";
+import ManageItem from "../Pages/Dashboard/ManageItem/ManageItem";
 
 
 const router = createBrowserRouter([
@@ -59,6 +61,10 @@ const router = createBrowserRouter([
             {
                 path: 'add-item',
                 element: <AdminRoute><AddItem /></AdminRoute>
+            },
+            {
+                path: 'manage-item',
+                element: <AdminRoute><ManageItem /></AdminRoute>
             },
         ]
     }
