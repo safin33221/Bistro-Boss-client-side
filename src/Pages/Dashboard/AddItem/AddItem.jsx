@@ -1,11 +1,40 @@
 import React from 'react';
 import SectionTitle from '../../../Components/SectionTitle';
 import { useForm } from 'react-hook-form';
-
+import useAxiosOpen from '../../../Hooks/useAxiosOpen';
+import useAxiosSecure from '../../../Hooks/useAxiosSecure';
+const img_hosting_key = import.meta.env.VITE_IMAGE_HOSING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${img_hosting_key}`
 const AddItem = () => {
     const { register, handleSubmit } = useForm()
-    const onSubmit = (data) => {
+    const axiosOpen = useAxiosOpen()
+    const axiosSecure = useAxiosSecure()
+    const onSubmit = async (data) => {
         console.log(data);
+        //upload the image in imgbb
+        const imageFile = { image: data.image[0] }
+        const res = await axiosOpen.post(image_hosting_api, imageFile, {
+            headers: {
+                "content-type": "multipart/form-data"
+            }
+        })
+        console.log(res.data);
+        if (res.data.success) {
+            //now we can send data in the database
+            const menuItem = {
+                name: data.name,
+                category: data.category,
+                price: parseFloat(data.price),
+                recipe: data.recipe,
+                image: res.data.data.display_url
+            }
+            axiosSecure.post('/menu',menuItem)
+            .then(res=>{
+                console.log(res.data);
+            })
+
+        }
+
     }
     return (
         <div className='w-10/12 mx-auto'>
@@ -16,13 +45,13 @@ const AddItem = () => {
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     {/* Recipe Name */}
                     <div>
-                        <label htmlFor="recipeName" className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-medium text-gray-700">
                             Recipe name*
                         </label>
                         <input
                             type="text"
-                            id="recipeName"
-                            {...register('recipeName', { required: true })}
+                            id="name"
+                            {...register('name', { required: true })}
                             placeholder="Recipe name"
                             className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         />
@@ -32,8 +61,8 @@ const AddItem = () => {
                     <div className="grid grid-cols-2 gap-4">
                         {/* Category */}
                         <div>
-                            <label htmlFor="category" className="block text-sm font-medium text-gray-700">
-                                Category*
+                            <label className="block text-sm font-medium text-gray-700">
+                                category*
                             </label>
                             <select
                                 id="category"
@@ -41,7 +70,7 @@ const AddItem = () => {
 
                                 className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             >
-                                <option value=" " disabled>
+                                <option value="" aria-readonly>
                                     Select Category
                                 </option>
 
@@ -55,15 +84,15 @@ const AddItem = () => {
 
                         {/* Price */}
                         <div>
-                            <label htmlFor="price" className="block text-sm font-medium text-gray-700">
-                                Price*
+                            <label className="block text-sm font-medium text-gray-700">
+                                price*
                             </label>
                             <input
                                 type="number"
                                 id="price"
                                 {...register('price', { required: true })}
 
-                                placeholder="Price"
+                                placeholder="price"
                                 className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             />
                         </div>
@@ -71,12 +100,12 @@ const AddItem = () => {
 
                     {/* Recipe Details */}
                     <div>
-                        <label htmlFor="recipeDetails" className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-medium text-gray-700">
                             Recipe Details*
                         </label>
                         <textarea
-                            id="recipeDetails"
-                            {...register('recipeDetails', { required: true })}
+                            id="recipe"
+                            {...register('recipe', { required: true })}
 
                             placeholder="Recipe Details"
                             rows="4"
@@ -89,7 +118,7 @@ const AddItem = () => {
                         <input
                             type="file"
                             id="fileUpload"
-                            {...register('fileUpload', { required: true })}
+                            {...register('image', { required: true })}
 
                             className="block w-full text-sm text-gray-500
               file:mr-4 file:py-2 file:px-4

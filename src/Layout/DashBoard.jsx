@@ -10,22 +10,16 @@ import axios from 'axios';
 
 const DashBoard = () => {
     // const [isAdmin] = useAdmin();
-    const { user, setIsAdmin, isAdmin, loading,signUpUser,name } = useContext(authContex)
-    console.log(name,'safin33221',user);
+    const { user, setIsAdmin, isAdmin, loading,name } = useContext(authContex)
+
 
     const axiosSecure = useAxiosSecure()
 
     useEffect(() => {
         if (user) {
-            fetch(`http://localhost:5050/users/admin/${user?.email}`, {
-                method: "GET",
-                headers: {
-                    "content-type": "aplication/json",
-                    'Authorization': `Bearer ${localStorage.getItem('Token')}`,
-                }
-            })
-                .then(res => res.json())
-                .then(data => setIsAdmin(data?.admin))
+            axiosSecure.get(`http://localhost:5050/users/admin/${user?.email}`)
+               
+                .then(res => setIsAdmin(res?.data?.admin))
         }
     }, [user])
     if(loading){
@@ -41,7 +35,7 @@ const DashBoard = () => {
     //     }
 
     // })
-    console.log(isAdmin);
+
 
     return (
         <div className='flex'>

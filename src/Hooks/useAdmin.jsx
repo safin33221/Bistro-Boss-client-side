@@ -8,7 +8,7 @@ import axios from "axios";
 
 const useAdmin = () => {
     const { user } = useContext(authContex)
-    console.log(user, "safin");
+
     const axiosSecure = useAxiosSecure()
     // const [isAdmin, setIsAdmin] = useState(null)
     // useEffect(() => {
@@ -21,7 +21,7 @@ const useAdmin = () => {
         enabled: !!user?.email,
         queryFn: async () => {
             const res = await axiosSecure.get(`/users/admin/${user?.email}`)
-            console.log('admin data', res.data);
+        
             return res?.data?.admin
         }
     })
