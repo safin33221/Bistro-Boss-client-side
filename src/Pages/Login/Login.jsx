@@ -15,7 +15,7 @@ const Login = () => {
 
     const handleValitedCaptcha = e => {
         const value = e.target.value
-        console.log(value);
+        
         if (validateCaptcha(value)) {
             setDisabled(false)
         }
@@ -28,7 +28,7 @@ const Login = () => {
         const form = e.target
         const email = form.email.value
         const password = form.password.value
-        console.log(email, password);
+        
         signUpUser(email, password)
             .then(() => {
                 navigate(from, { replace: true })

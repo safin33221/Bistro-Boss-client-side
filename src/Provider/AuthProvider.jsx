@@ -1,12 +1,15 @@
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../Firebase/firebase.config";
+import useAxiosOpen from "../Hooks/useAxiosOpen";
 
 export const authContex = createContext()
 
 const AuthProvider = ({ children }) => {
+    const [isAdmin, setIsAdmin] = useState(null)
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
+    const axiosOpen = useAxiosOpen()
     const googleProvider = new GoogleAuthProvider()
 
 
@@ -41,25 +44,42 @@ const AuthProvider = ({ children }) => {
 
     //manage user
     useEffect(() => {
+        setLoading(true)
         const unsubcribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser)
-            setLoading(false)
-            console.log(currentUser);
+
+            if (currentUser) {
+                setUser(currentUser)
+                const userInfo = { email: currentUser.email }
+                axiosOpen.post('/jwt', userInfo)
+                    .then(res => {
+                        if (res.data.token) {
+                            localStorage.setItem('Token', res.data.token)
+                            setLoading(false)
+                        }
+                    })
+            } else {
+                // localStorage.removeItem('Token')
+                setLoading(false)
+            }
+
         })
         return () => {
             unsubcribe()
         }
-    }, [])
+    }, [user])
 
 
     const authValue = {
         user,
         loading,
+        setIsAdmin,
+        isAdmin,
         createUserWithEamil,
         updateUserProfile,
         signUpUser,
         signUpGoogle,
-        singoutUser
+        singoutUser,
+        name:'safin'
     }
 
 

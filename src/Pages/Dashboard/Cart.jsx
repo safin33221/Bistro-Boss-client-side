@@ -22,7 +22,7 @@ const Cart = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                console.log(id);
+               
                 axiosSecure.delete(`/cart/${id}`)
                     .then(res => {
                         

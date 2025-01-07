@@ -16,10 +16,10 @@ const SocialLogin = () => {
                     name: res?.user?.displayName,
                     email: res?.user?.email
                 }
-                console.log(res.data);
+
                 axiosOpen.post('/users', userInfo)
                     .then((res) => {
-                        console.log(res.data);
+
                         navigate('/')
                         Swal.fire({
                             position: "top-end",

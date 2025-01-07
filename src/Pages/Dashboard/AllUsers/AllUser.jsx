@@ -41,6 +41,33 @@ const AllUser = () => {
         });
 
     }
+    const handleMakeAdmin = user => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Change user Role",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.patch(`/user/admin/${user._id}`)
+                    .then(res => {
+                    
+                        refetch()
+                        if (res.data.modifiedCount > 0) {
+                            Swal.fire({
+                                title: "Admin!",
+                                text: `${user.name} is an admin now!`,
+                                icon: "success"
+                            });
+                        }
+                    })
+
+            }
+        });
+    }
     return (
         <div className=' w-10/12 mx-auto my-10'>
             <div className='flex justify-between '>
@@ -67,7 +94,7 @@ const AllUser = () => {
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>
                                     <td>
-                                        <button className=" bg-orange-500 text-white rounded-lg  duration-200 ease-in btn-sm"><FaUsers /></button>
+                                        {user?.role === 'admin' ? "Admin" : <button onClick={() => handleMakeAdmin(user)} className=" bg-orange-500 text-white rounded-lg  duration-200 ease-in btn-sm"><FaUsers /></button>}
                                     </td>
                                     <td>
                                         <button onClick={() => handleDelte(user)} className=" hover:text-red-500 duration-200 ease-in btn-lg"><FaTrashAlt /></button>

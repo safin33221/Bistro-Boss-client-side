@@ -49,7 +49,7 @@ const Register = () => {
             })
 
     }
-    console.log(watch, "example");
+    
     return (
         <div className="hero bg-base-200 min-h-screen w-10/12 mx-auto">
             <div className="hero-content flex-col lg:flex-row-reverse">

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { authContex } from '../Provider/AuthProvider';
 import { FaCartArrowDown } from 'react-icons/fa';
 import useCart from '../Hooks/useCart';
@@ -8,7 +8,7 @@ const Navbar = () => {
     const { user, singoutUser } = useContext(authContex)
     const navigate = useNavigate()
     const [cart] = useCart()
-   
+
     const navLinks = <>
         <li className='mx-3 text-yellow-600 font-bold'><NavLink to="/">Home</NavLink></li>
         <li className='mx-3 text-yellow-600 font-bold'><NavLink to="/Contact">Contact</NavLink></li>
@@ -17,7 +17,7 @@ const Navbar = () => {
         <li className='mx-3 text-yellow-600 font-bold'><NavLink to="/shop/salad">Our Shop</NavLink></li>
         <li className='mx-3 text-yellow-600 font-bold'><NavLink to="/dashboard/cart">
             <button className="btn btn-sm">
-            <FaCartArrowDown />
+                <FaCartArrowDown />
                 <div className="badge badge-secondary">+{cart.length}</div>
             </button>
         </NavLink></li>
@@ -72,7 +72,9 @@ const Navbar = () => {
                         <p>{user?.displayName}</p>
                     </div>
                         :
-                        <button className="btn">Login</button>
+                        <Link to='/login'>
+                            <button className="btn">Login</button>
+                        </Link>
                 }
             </div>
         </div>
