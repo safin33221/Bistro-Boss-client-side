@@ -89,6 +89,7 @@ const DashBoard = () => {
                     </li>
                     <li>
                         <NavLink to="/shop/contact"> <FaEnvelope />Contact</NavLink>
+                        <a href="" target='_blank'></a>
                     </li>
                 </ul>
             </div>

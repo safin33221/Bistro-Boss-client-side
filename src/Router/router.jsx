@@ -13,6 +13,7 @@ import AllUser from "../Pages/Dashboard/AllUsers/AllUser";
 import AddItem from "../Pages/Dashboard/AddItem/AddItem";
 import AdminRoute from "../Privet/adminRoute";
 import ManageItem from "../Pages/Dashboard/ManageItem/ManageItem";
+import UpdateItem from "../Pages/Dashboard/Update/UpdateItem";
 
 
 const router = createBrowserRouter([
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
             {
                 path: 'manage-item',
                 element: <AdminRoute><ManageItem /></AdminRoute>
+            },
+            {
+                path: '/dashboard/UpdateItem/:id',
+                element: <AdminRoute><UpdateItem /></AdminRoute>
             },
         ]
     }

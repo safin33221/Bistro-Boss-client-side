@@ -3,10 +3,11 @@ import SectionTitle from "../../../Components/SectionTitle";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const ManageItem = () => {
     const axiosSecure = useAxiosSecure()
-    const { data: menus = [],refetch } = useQuery({
+    const { data: menus = [], refetch } = useQuery({
         queryKey: ['menus'],
         queryFn: async () => {
             const res = await axiosSecure.get('/menu')
@@ -25,15 +26,15 @@ const ManageItem = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 axiosSecure.delete(`/menu/${menu._id}`)
-                .then(res =>{
-                    console.log(res.data);
-                refetch()
-                    Swal.fire({
-                        title: "Deleted!",
-                        text: "Your file has been deleted.",
-                        icon: "success"
-                    });
-                })
+                    .then(res => {
+                        console.log(res.data);
+                        refetch()
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                    })
             }
         });
     }
@@ -79,9 +80,11 @@ const ManageItem = () => {
                                     <p>{menu?.price}</p>
                                 </td>
                                 <td>
-                                    <button className="btn">
-                                        <FaEdit />
-                                    </button>
+                                    <Link to={`/dashboard/UpdateItem/${menu._id}`}>
+                                        <button className="btn">
+                                            <FaEdit />
+                                        </button>
+                                    </Link>
                                 </td>
                                 <th>
                                     <button onClick={() => handleDelete(menu)} className="btn btn-ghost btn-xs"><FaTrashAlt /></button>

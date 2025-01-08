@@ -1,27 +1,37 @@
-import React from 'react';
-import SectionTitle from '../../../Components/SectionTitle';
-import { useForm } from 'react-hook-form';
-import useAxiosOpen from '../../../Hooks/useAxiosOpen';
-import useAxiosSecure from '../../../Hooks/useAxiosSecure';
-import Swal from 'sweetalert2';
-const img_hosting_key = import.meta.env.VITE_IMAGE_HOSING_KEY;
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import SectionTitle from "../../../Components/SectionTitle";
+import useAxiosOpen from "../../../Hooks/useAxiosOpen";
+import Swal from "sweetalert2";
+
+
+const img_hosting_key = import.meta.env.VITE_IMAGE_HOSING_KEY
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${img_hosting_key}`
-const AddItem = () => {
-    const { register, handleSubmit,reset } = useForm()
-    const axiosOpen = useAxiosOpen()
+const UpdateItem = () => {
+    const { register, handleSubmit } = useForm()
+    const { id } = useParams()
     const axiosSecure = useAxiosSecure()
+    const axiosOpen = useAxiosOpen()
+    const { data: menu = {} ,refetch } = useQuery({
+        queryKey: ['menu'],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`http://localhost:5050/update/${id}`)
+            return res.data
+        }
+    })
+    console.log(menu._id);
     const onSubmit = async (data) => {
         console.log(data);
-        //upload the image in imgbb
         const imageFile = { image: data.image[0] }
         const res = await axiosOpen.post(image_hosting_api, imageFile, {
             headers: {
                 "content-type": "multipart/form-data"
             }
-        })  
-        console.log(res.data);
+        })
         if (res.data.success) {
-            //now we can send data in the database
             const menuItem = {
                 name: data.name,
                 category: data.category,
@@ -29,27 +39,28 @@ const AddItem = () => {
                 recipe: data.recipe,
                 image: res.data.data.display_url
             }
-            axiosSecure.post('/menu',menuItem)
-            .then(res=>{
-                console.log(res.data);
-                if(res.data.insertedId){
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: "Item has been add successful",
-                        showConfirmButton: false,
-                        timer: 1500
-                      });
-                      reset()
-                }
-            })
+            axiosOpen.patch(`/menu/${menu?._id}`, menuItem)
+                .then(res => {
+                    console.log(res.data);
+                    if (res.data.modifiedCount >0 ) {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Item has been Update successful",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        refetch()
+                    }
+                })
 
         }
+
 
     }
     return (
         <div className='w-10/12 mx-auto'>
-            <SectionTitle heading="add item" subheading="nothign" />
+            <SectionTitle heading="Update item" subheading="hurry up!" />
 
             <div className="max-w-4xl mx-auto p-6 border rounded-md shadow-md bg-gray-50">
                 <h2 className="text-lg font-semibold mb-4">Add New Recipe</h2>
@@ -62,6 +73,7 @@ const AddItem = () => {
                         <input
                             type="text"
                             id="name"
+                            defaultValue={menu?.name}
                             {...register('name', { required: true })}
                             placeholder="Recipe name"
                             className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -76,12 +88,12 @@ const AddItem = () => {
                                 category*
                             </label>
                             <select
+                                defaultValue={menu?.category}
                                 id="category"
                                 {...register('category', { required: true })}
-
                                 className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             >
-                                <option value="" aria-readonly>
+                                <option value="" disabled>
                                     Select Category
                                 </option>
 
@@ -102,6 +114,7 @@ const AddItem = () => {
                                 type="number"
                                 id="price"
                                 {...register('price', { required: true })}
+                                defaultValue={menu?.price}
 
                                 placeholder="price"
                                 className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -117,7 +130,7 @@ const AddItem = () => {
                         <textarea
                             id="recipe"
                             {...register('recipe', { required: true })}
-
+                            defaultValue={menu?.recipe}
                             placeholder="Recipe Details"
                             rows="4"
                             className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -130,7 +143,7 @@ const AddItem = () => {
                             type="file"
                             id="fileUpload"
                             {...register('image', { required: true })}
-
+                            defaultValue={menu?.image}
                             className="block w-full text-sm text-gray-500
               file:mr-4 file:py-2 file:px-4
               file:rounded-md file:border-0
@@ -146,7 +159,7 @@ const AddItem = () => {
                         type="submit"
                         className="w-full bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 flex items-center justify-center"
                     >
-                        Add Item
+                        UPdate Item
                         <span className="ml-2">🍴</span>
                     </button>
                 </form>
@@ -155,4 +168,4 @@ const AddItem = () => {
     );
 };
 
-export default AddItem;
+export default UpdateItem;
