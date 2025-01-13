@@ -5,11 +5,12 @@ import { FaTrashAlt } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import { Link } from 'react-router-dom';
 
 const Cart = () => {
-    const [cart,refetch] = useCart()
+    const [cart, refetch] = useCart()
     const totalPrice = cart.reduce((total, item) => total + item.price, 0)
-    
+
     const axiosSecure = useAxiosSecure()
     const handleDelte = id => {
         Swal.fire({
@@ -22,10 +23,10 @@ const Cart = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-               
+
                 axiosSecure.delete(`/cart/${id}`)
                     .then(res => {
-                        
+
                         if (res.data.deletedCount > 0) {
                             Swal.fire({
                                 title: "Deleted!",
@@ -34,7 +35,7 @@ const Cart = () => {
                             });
                         }
                         refetch()
-                        
+
 
                     })
 
@@ -47,7 +48,11 @@ const Cart = () => {
             <div className='md:flex justify-around'>
                 <h1 className="text-3xl"> Total Items:{cart.length}</h1>
                 <h1 className="text-3xl"> Total Price:{totalPrice}</h1>
-                <button className="btn bg-orange-400 px-4 btn-lg ">Pay</button>
+                {
+                cart.length ? <Link to='/dashboard/payment'>
+                        <button className="btn bg-orange-400 px-4 btn-lg ">Pay</button>
+                    </Link>
+                        : <button className='btn' disabled>Pay</button>}
             </div>
             <div className="overflow-x-auto">
                 <table className="table">
